@@ -40,7 +40,6 @@ namespace PostPocBackend.UnitTests
             Assert.Equals(target.CountActivations, 3);
             Assert.Equals(target.Activations(2).CountActions, 2);
         }
-
         [Test]
         public void Play_1effect_success() {
             IGameActionContext context = new MockContext();
@@ -48,9 +47,18 @@ namespace PostPocBackend.UnitTests
 
             target.Activations(0).GetActivatable(context)?.Activate(context);
 
-            Assert.AreEqual(false, context.dict["test"]);
+            Assert.AreEqual(1, context.dict["testsRun"]);
         }
+        [Test]
+        public void Play_2effect_success()
+        {
+            IGameActionContext context = new MockContext();
+            context.dict.Add("test", true);
 
+            target.Activations(2).GetActivatable(context)?.Activate(context);
+
+            Assert.AreEqual(2, context.dict["testsRun"]);
+        }
         [Test]
         public void Play_1effect_incorrectContext()
         {
@@ -59,7 +67,6 @@ namespace PostPocBackend.UnitTests
 
             Assert.IsNull(target.Activations(0).GetActivatable(context));
         }
-
         [Test]
         public void Play_1effect_nullContext()
         {

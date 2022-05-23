@@ -29,7 +29,9 @@ namespace PostPocBackend
 
             public class Activatable {
 
-                public void Activate(IGameActionContext context) { }
+                public void Activate(IGameActionContext context) {
+                    throw new NotImplementedException();
+                }
 
             }
         }

@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace PostPocBackend.UnitTests
 {
@@ -18,19 +18,11 @@ namespace PostPocBackend.UnitTests
         {
             storageStructure = new List<MockCard>();
             DiscardStructure = new List<MockCard>();
+            int Random_seed = 1;
 
-            target = new CardDeck<MockCard>(storageStructure, DiscardStructure);
+            target = new CardDeck<MockCard>(storageStructure, DiscardStructure, Random_seed);
         }
 
-        [Test]
-        public void DrawCard_AddCard1DrawCard1_success()
-        {
-            MockCard card1 = new MockCard();
-            target.AddCard(card1);
-
-            MockCard card = target.DrawCard();
-            Assert.IsTrue(card == card1);
-        }
         [Test]
         public void CountCards_success()
         {
@@ -45,11 +37,29 @@ namespace PostPocBackend.UnitTests
             Assert.IsTrue(target.CountCards == 3);
         }
         [Test]
+        public void AddCard_NullCard_noAction()
+        {
+            MockCard cardNull = null;
+            target.AddCard(cardNull);
+            Assert.IsTrue(target.CountCards == 0);
+            Assert.IsNull(target.DrawCard());
+        }
+        [Test]
+        public void DrawCard_AddCard1DrawCard1_success()
+        {
+            MockCard card1 = new MockCard();
+            target.AddCard(card1);
+
+            MockCard card = target.DrawCard();
+            Assert.IsTrue(card == card1);
+        }
+        [Test]
         public void DrawCard_AddCard2DrawCard2_success()
         {
             MockCard card1 = new MockCard();
             MockCard card2 = new MockCard();
             MockCard[] drawnArray = new MockCard[2];
+
 
             target.AddCard(new ICardDeckable[] { card1, card2 });
 
@@ -65,14 +75,6 @@ namespace PostPocBackend.UnitTests
 
         }
         [Test]
-        public void DrawCard_NullCard_noACtion() {
-            MockCard cardNull = null;
-            target.AddCard(cardNull);
-            Assert.IsTrue(target.CountCards == 0);
-            Assert.IsNull(target.DrawCard());
-        }
-        
-        [Test]
         public void DrawCard_deckEmpty()
         {
             Assert.IsNull(target.DrawCard());
@@ -84,21 +86,6 @@ namespace PostPocBackend.UnitTests
             target.AddCard(card1);
             target.DrawCard();
             Assert.IsNull(target.DrawCard());
-        }
-        [Test]
-        public void DrawCard_AddCard3Shuffle_noCardsLost()
-        {
-
-            MockCard card1 = new MockCard();
-            MockCard card2 = new MockCard();
-            MockCard card3 = new MockCard();
-
-            target.AddCard(new ICardDeckable[] { card1, card2, card3 });
-
-            Assert.Contains(card1, storageStructure);
-            Assert.Contains(card2, storageStructure);
-            Assert.Contains(card3, storageStructure);
-
         }
         [Test]
         public void DiscardCard_DiscardCard1_success()
@@ -128,6 +115,13 @@ namespace PostPocBackend.UnitTests
 
         }
         [Test]
+        public void DiscardCard_NullCard_noAction()
+        {
+            MockCard cardNull = null;
+            target.Discard(cardNull);
+            Assert.IsTrue(target.CountDiscard == 0);
+        }
+        [Test]
         public void CountDiscard_success()
         {
             MockCard card1 = new MockCard();
@@ -140,8 +134,32 @@ namespace PostPocBackend.UnitTests
             target.Discard(card1);
             Assert.IsTrue(target.CountDiscard == 3);
         }
+        [Test]
+        public void Shuffle_success()
+        {
+            MockCard card1 = new MockCard();
+            MockCard card2 = new MockCard();
+            MockCard card3 = new MockCard();
+            MockCard card4 = new MockCard();
+            MockCard card5 = new MockCard();
 
 
+            target.AddCard(new ICardDeckable[] { card1, card2, card3, card4, card5 });
+
+            List<MockCard> List1 = new List<MockCard>(storageStructure);
+            List<MockCard> List2;
+            List<MockCard> List3;
+
+            target.Shuffle();
+            List2 = new List<MockCard>(storageStructure);
+            target.Shuffle();
+            List3 = new List<MockCard>(storageStructure);
+
+            Assert.IsFalse(List1.SequenceEqual(List2));
+            Assert.IsFalse(List2.SequenceEqual(List3));
+            Assert.IsFalse(List1.SequenceEqual(List3));
+
+        }
         [Test]
         public void Reshuffle_Discard2_success()
         {

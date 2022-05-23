@@ -18,8 +18,6 @@ namespace PostPocBackend.UnitTests
 
         TestAction testTarget;
 
-
-
         [Test]
         public void TestAction_GetDoable_correctContext() {
             IGameActionContext context = new MockContext();
@@ -27,7 +25,7 @@ namespace PostPocBackend.UnitTests
 
             Assert.IsNotNull(testTarget.GetDoable(context));
         }
-
+        [Test]
         public void TestAction_GetDoable_incorrectContext()
         {
             IGameActionContext context = new MockContext();
@@ -35,23 +33,20 @@ namespace PostPocBackend.UnitTests
 
             Assert.IsNull(testTarget.GetDoable(context));
         }
-
+        [Test]
         public void TestAction_GetDoable_nullContext()
         {
             Assert.IsNull(testTarget.GetDoable(null));
         }
-
         [Test]
         public void TestAction_Do_correctContext()
         {
             IGameActionContext context = new MockContext();
             context.dict.Add("test", true);
 
-
             testTarget.GetDoable(context)?.Do(context);
-            Assert.Contains(test, context.dict);
-            Assert.AreEqual(false, context.dict["test"]);
-
+            Assert.Contains("test", context.dict);
+            Assert.AreEqual(1, context.dict["testsRun"]);
         }
 
         public class MockContext : IGameActionContext

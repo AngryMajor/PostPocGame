@@ -14,7 +14,7 @@ namespace PostPocBackend
 
         }
 
-        public CardDeck( ICollection<T> storageStructure, ICollection<T> discardStructure)
+        public CardDeck( ICollection<T> storageStructure, ICollection<T> discardStructure, int random_seed)
         {
 
         }
@@ -45,9 +45,10 @@ namespace PostPocBackend
             throw new NotImplementedException();
         }
 
-
-
-
+        public void Shuffle()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface ICardDeckable { }
