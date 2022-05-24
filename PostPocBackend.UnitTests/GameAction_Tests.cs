@@ -45,7 +45,7 @@ namespace PostPocBackend.UnitTests
             context.dict.Add("test", true);
 
             testTarget.GetDoable(context)?.Do(context);
-            Assert.Contains("test", context.dict);
+            Assert.Contains("testsRun", context.dict.Keys);
             Assert.AreEqual(1, context.dict["testsRun"]);
         }
 

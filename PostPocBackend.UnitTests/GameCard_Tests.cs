@@ -23,9 +23,9 @@ namespace PostPocBackend.UnitTests
         public void CreateCards_success()
         { 
             //testing the setup target
-            Assert.Equals(target.CountActivations, 2);
-            Assert.Equals(target.Activations(0).CountActions, 1);
-            Assert.Equals(target.Activations(1).CountActions, 2);
+            Assert.AreEqual(2, target.CountActivations);
+            Assert.AreEqual(1, target.Activations(0).CountActions);
+            Assert.AreEqual(2, target.Activations(1).CountActions);
 
             //testing alternat GameCard
             GameAction test = new TestAction(new string[0]);
@@ -37,8 +37,8 @@ namespace PostPocBackend.UnitTests
 
             });
 
-            Assert.Equals(target.CountActivations, 3);
-            Assert.Equals(target.Activations(2).CountActions, 2);
+            Assert.AreEqual(3, target.CountActivations);
+            Assert.AreEqual(2, target.Activations(2).CountActions);
         }
         [Test]
         public void Play_1effect_success() {
@@ -55,7 +55,7 @@ namespace PostPocBackend.UnitTests
             IGameActionContext context = new MockContext();
             context.dict.Add("test", true);
 
-            target.Activations(2).GetActivatable(context)?.Activate(context);
+            target.Activations(1).GetActivatable(context)?.Activate(context);
 
             Assert.AreEqual(2, context.dict["testsRun"]);
         }

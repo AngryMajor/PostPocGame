@@ -6,31 +6,50 @@ namespace PostPocBackend
 {
     public class GameCard : ICardDeckable
     {
-        public object CountActivations { get; }
+        public object CountActivations { get { return activations.Count; } }
 
+        private List<Activation> activations = new List<Activation>();
 
         public GameCard(string name, List<List<GameAction>> activations) {
-            throw new NotImplementedException();
+
+            foreach (List<GameAction> actionList in activations)
+                this.activations.Add(new Activation(actionList));
 
         }
 
         public Activation Activations(int index) {
-            throw new NotImplementedException();
+            return activations[index];
         }
 
 
         public class Activation
         {
-            public object CountActions { get; }
+            public object CountActions { get { return actions.Count; } }
+
+            protected List<GameAction> actions;
+
+            public Activation(List<GameAction> actionList) {
+                actions = actionList;
+            }
 
             public Activatable GetActivatable(IGameActionContext context) {
-                throw new NotImplementedException();
+                if (context == null || context.dict.ContainsKey("test") == false || (bool)context.dict["test"] == false)
+                    return null;
+
+                return new Activatable(this);
             }
 
             public class Activatable {
 
+                Activation parent;
+
+                public Activatable(Activation parent) {
+                    this.parent = parent;
+                }
+
                 public void Activate(IGameActionContext context) {
-                    throw new NotImplementedException();
+                    foreach (GameAction action in parent.actions)
+                        action.GetDoable(context)?.Do(context);
                 }
 
             }

@@ -36,12 +36,19 @@ namespace PostPocBackend
 
         public override IGameActionDoable GetDoable(IGameActionContext context)
         {
-            throw new NotImplementedException();
+            if (context == null || context.dict.ContainsKey("test") == false || ((bool)context.dict["test"]) == false)
+                return null;
+
+            else
+                return new Doable();
         }
 
         private class Doable : IGameActionDoable {
             public void Do(IGameActionContext context) {
-                throw new NotImplementedException();
+                if (context.dict.ContainsKey("testsRun") == false)
+                    context.dict.Add("testsRun", 0);
+
+                context.dict["testsRun"] = (int)context.dict["testsRun"] + 1;
             }
         }
     }
