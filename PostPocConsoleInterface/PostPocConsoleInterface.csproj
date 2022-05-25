@@ -9,11 +9,13 @@
     <Reference Include="PostPocBackend">
       <HintPath>PostPocBackend.dll</HintPath>
     </Reference>
+    <Reference Include="PostPocModel">
+      <HintPath>PostPocModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy C:\Users\peter\OneDrive\Documents\PostPocGameFiles\PostPocConsoleInterface\PostPocBackend\bin\Debug\netcoreapp3.1\PostPocBackend.dll PostPocBackend.dll
-" />
+    <Exec Command="copy C:\Users\peter\OneDrive\Documents\PostPocGameFiles\PostPocConsoleInterface\PostPocBackend\bin\Debug\netcoreapp3.1\PostPocModel.dll PostPocModel.dll&#xD;&#xA;" />
   </Target>
 
 

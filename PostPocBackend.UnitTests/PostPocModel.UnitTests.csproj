@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PostPocBackend\PostPocBackend.csproj" />
+    <ProjectReference Include="..\PostPocBackend\PostPocModel.csproj" />
   </ItemGroup>
 
 </Project>

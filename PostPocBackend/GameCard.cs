@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostPocBackend
+namespace PostPocModel
 {
     public class GameCard : ICardDeckable
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PostPocBackend
+namespace PostPocModel
 {
     public class CardDeck<T> where T : class,ICardDeckable
     {

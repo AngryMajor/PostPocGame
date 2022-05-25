@@ -8,9 +8,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostPocConsoleInterface", "
 		{8A9A74D4-7FC9-418E-9C82-06E7FFDF83FA} = {8A9A74D4-7FC9-418E-9C82-06E7FFDF83FA}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostPocBackend", "PostPocBackend\PostPocBackend.csproj", "{8A9A74D4-7FC9-418E-9C82-06E7FFDF83FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostPocModel", "PostPocBackend\PostPocModel.csproj", "{8A9A74D4-7FC9-418E-9C82-06E7FFDF83FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostPocBackend.UnitTests", "PostPocBackend.UnitTests\PostPocBackend.UnitTests.csproj", "{7A9A033F-16AC-4A55-B28A-A4FB201A36C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostPocModel.UnitTests", "PostPocBackend.UnitTests\PostPocModel.UnitTests.csproj", "{7A9A033F-16AC-4A55-B28A-A4FB201A36C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
