@@ -11,7 +11,7 @@ namespace PostPocModel.UnitTests
         [SetUp]
         public void Setup()
         {
-            testTarget = new TestAction(new string[0]);
+            testTarget = new TestAction(new Dictionary<string, object>());
         }
 
         #region TestAction
@@ -53,6 +53,8 @@ namespace PostPocModel.UnitTests
         {
             private Dictionary<string, object> _dict = new Dictionary<string, object>();
             public Dictionary<string, object> dict { get { return _dict; } }
+
+            public GameWorld World => throw new NotImplementedException();
         }
 
         #endregion

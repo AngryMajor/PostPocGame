@@ -6,7 +6,7 @@ namespace PostPocModel
 {
     public abstract class GameAction
     {
-        public GameAction(string[] Args) { 
+        public GameAction(Dictionary<string,object> Args) { 
             
         }
 
@@ -15,11 +15,27 @@ namespace PostPocModel
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public abstract IGameActionDoable GetDoable(IGameActionContext context);
+        public IGameActionDoable GetDoable(IGameActionContext context) {
+            if (context == null || ValidContext(context) == false)
+                return null;
+            else
+                return new Doable(this);
+        }
 
+        protected abstract bool ValidContext(IGameActionContext context);
+        protected abstract void Do(IGameActionContext context);
 
-        protected abstract class Doable : IGameActionDoable {
-            public abstract void Do(IGameActionContext context);
+        protected class Doable : IGameActionDoable {
+
+            GameAction myAction;
+
+            public Doable(GameAction action) {
+                myAction = action;
+            }
+
+            public void Do(IGameActionContext context) {
+                myAction.Do(context);
+            }
         }
     }
 
@@ -28,28 +44,25 @@ namespace PostPocModel
     }
     public interface IGameActionContext {
         public Dictionary<String, Object> dict { get; }
+        public GameWorld World { get; }
     }
+
 
     public class TestAction : GameAction
     {
-        public TestAction(string[] Args) : base(Args) { }
+        public TestAction(Dictionary<string,object> Args) : base(Args) { }
 
-        public override IGameActionDoable GetDoable(IGameActionContext context)
+        protected override void Do(IGameActionContext context)
         {
-            if (context == null || context.dict.ContainsKey("test") == false || ((bool)context.dict["test"]) == false)
-                return null;
+            if (context.dict.ContainsKey("testsRun") == false)
+                context.dict.Add("testsRun", 0);
 
-            else
-                return new Doable();
+            context.dict["testsRun"] = (int)context.dict["testsRun"] + 1;
         }
 
-        private class Doable : IGameActionDoable {
-            public void Do(IGameActionContext context) {
-                if (context.dict.ContainsKey("testsRun") == false)
-                    context.dict.Add("testsRun", 0);
-
-                context.dict["testsRun"] = (int)context.dict["testsRun"] + 1;
-            }
+        protected override bool ValidContext(IGameActionContext context)
+        {
+            return context.dict.ContainsKey("test") && ((bool)context.dict["test"]) == true;
         }
     }
 }

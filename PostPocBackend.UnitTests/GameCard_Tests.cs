@@ -12,10 +12,10 @@ namespace PostPocModel.UnitTests
 
         [SetUp]
         public void Setup() {
-            GameAction test = new TestAction(new string[0]);
             target = target = new GameCard("Name", new List<List<GameAction>> {
-                 new List<GameAction>{ test }
-                ,new List<GameAction> { test,test }
+                 new List<GameAction>{ new TestAction(new Dictionary<string, object>()) }
+                ,new List<GameAction> { new TestAction(new Dictionary<string, object>())
+                    ,new TestAction(new Dictionary<string, object>()) }
             });
         }
 
@@ -28,8 +28,8 @@ namespace PostPocModel.UnitTests
             Assert.AreEqual(2, target.Activations(1).CountActions);
 
             //testing alternat GameCard
-            GameAction test = new TestAction(new string[0]);
-            test = new TestAction(new string[0]);
+            GameAction test = new TestAction(new Dictionary<string, object>());
+            test = new TestAction(new Dictionary<string, object>());
             target = new GameCard("Name", new List<List<GameAction>> {
                  new List<GameAction>{ test }
                 ,new List<GameAction> { test,test }
@@ -78,6 +78,8 @@ namespace PostPocModel.UnitTests
         {
             private Dictionary<string, object> _dict = new Dictionary<string, object>();
             public Dictionary<string, object> dict { get { return _dict; } }
+
+            public GameWorld World => throw new NotImplementedException();
         }
 
     }
