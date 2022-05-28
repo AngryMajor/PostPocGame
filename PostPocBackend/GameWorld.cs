@@ -45,4 +45,16 @@ namespace PostPocModel
         public AbstractSettelment Build(String name);
     }
 
+    public class DefaultStettelemtnBuilder : ISettelmentBuilder
+    {
+        public AbstractSettelment Build(string name)
+        {
+            return new Settelment();
+        }
+    }
+
+    public class Settelment : AbstractSettelment { 
+    
+    }
+
 }
