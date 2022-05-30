@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Collections.Immutable;
 using System.Collections.Generic;
 using PostPocModel;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace PostPocConsoleInterface
 
         private static CardControler cardControler;
 
+        private static GameDataLoader dataLoader = new HardCodeGameDataLoader();
         private static GameWorld world;
         private static GameContext currContext;
 
@@ -61,6 +63,8 @@ namespace PostPocConsoleInterface
         static void SetupGameData() {
             world = new GameWorld(new DefaultStettelemtnBuilder());
             currContext = new GameContext(world);
+
+            cardControler.AddCards(dataLoader.GetGameCards());
         }
 
         static void LoadInCommands() {
@@ -85,7 +89,12 @@ namespace PostPocConsoleInterface
         }
 
         static void PrintGameData() {
-            Console.WriteLine("This is game data");
+            Console.WriteLine("Current Hand:");
+
+            foreach (GameCard card in cardControler.Hand) {
+                Console.WriteLine("     *:" + card.Name + ":*\n       " + card.Description);
+            }
+
             Console.WriteLine("Command number: " + intpuCount);
         }
 
@@ -103,16 +112,25 @@ namespace PostPocConsoleInterface
     public class CardControler {
 
         private CardDeck<GameCard> deck = new CardDeck<GameCard>();
-        private List<GameCard> hand = new List<GameCard>();
+        private List<GameCard> _hand = new List<GameCard>();
+        public IEnumerable<GameCard> Hand { get { return _hand; } }
+
 
         public CardControler() {
 
         }
 
+        public void AddCards(IEnumerable<IGameCard> cardEnumerable) {
+            foreach (IGameCard card in cardEnumerable)
+                deck.AddCard((GameCard)card);
+        }
+
         public Dictionary<string, Func<String[], string>> getCommands() {
             Dictionary<string, Func<String[],string>> commands = new Dictionary<string, Func<String[], string>>();
-
            
+            commands.TryAdd("draw", delegate (string[] x) { _hand.Add(deck.DrawCard()); return _hand[0].ToString(); });
+
+
             return commands;
         }
 

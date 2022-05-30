@@ -4,13 +4,18 @@ using System.Text;
 
 namespace PostPocModel
 {
-    public class GameCard : ICardDeckable
+    public class GameCard : IGameCard
     {
+
+        public string Name { get; private set; }
+        public string Description { get; private set; }
         public object CountActivations { get { return activations.Count; } }
 
         private List<Activation> activations = new List<Activation>();
 
-        public GameCard(string name, List<List<GameAction>> activations) {
+        public GameCard(string name,string description, List<List<GameAction>> activations) {
+            this.Name = name;
+            this.Description = description;
 
             foreach (List<GameAction> actionList in activations)
                 this.activations.Add(new Activation(actionList));
@@ -19,6 +24,10 @@ namespace PostPocModel
 
         public Activation Activations(int index) {
             return activations[index];
+        }
+
+        public override string ToString() {
+            return this.Name;
         }
 
 
@@ -55,4 +64,7 @@ namespace PostPocModel
             }
         }
     }
+
+    public interface IGameCard : ICardDeckable
+    { }
 }

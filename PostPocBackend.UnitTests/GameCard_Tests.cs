@@ -12,7 +12,7 @@ namespace PostPocModel.UnitTests
 
         [SetUp]
         public void Setup() {
-            target = target = new GameCard("Name", new List<List<GameAction>> {
+            target = target = new GameCard("Name","", new List<List<GameAction>> {
                  new List<GameAction>{ new TestAction(new Dictionary<string, object>()) }
                 ,new List<GameAction> { new TestAction(new Dictionary<string, object>())
                     ,new TestAction(new Dictionary<string, object>()) }
@@ -30,7 +30,7 @@ namespace PostPocModel.UnitTests
             //testing alternat GameCard
             GameAction test = new TestAction(new Dictionary<string, object>());
             test = new TestAction(new Dictionary<string, object>());
-            target = new GameCard("Name", new List<List<GameAction>> {
+            target = new GameCard("Name","", new List<List<GameAction>> {
                  new List<GameAction>{ test }
                 ,new List<GameAction> { test,test }
                 ,new List<GameAction> { test,test }
