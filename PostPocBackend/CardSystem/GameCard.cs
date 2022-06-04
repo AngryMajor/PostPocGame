@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostPocModel
+namespace PostPocModel.CardSystem
 {
     public class GameCard : IGameCard
     {
@@ -17,8 +17,9 @@ namespace PostPocModel
             this.Name = name;
             this.Description = description;
 
-            foreach (List<GameAction> actionList in activations)
-                this.activations.Add(new Activation(actionList));
+            if(activations != null)
+                foreach (List<GameAction> actionList in activations)
+                    this.activations.Add(new Activation(actionList));
 
         }
 
@@ -63,8 +64,36 @@ namespace PostPocModel
 
             }
         }
+
+        public class Builder : ICardBuilder<GameCard>
+        {
+            protected string name;
+            protected string description;
+            protected List<List<GameAction>> activations = new List<List<GameAction>>();
+
+            public override ICardBuilder<GameCard> New(string name, string descriptoin)
+            {
+                this.name = name;
+                this.description = descriptoin;
+                return this;
+            }
+
+            public override ICardBuilder<GameCard> WithActivation(List<GameAction> actions)
+            {
+                activations.Add(actions);
+                return this;
+            }
+
+            protected override GameCard get()
+            {
+                return new GameCard(name, description,activations);
+            }
+
+        }
     }
 
-    public interface IGameCard : ICardDeckable
+    public class CardActivation : List<GameAction> { }
+
+    public abstract class IGameCard : ICardDeckable
     { }
 }

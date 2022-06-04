@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections.Immutable;
 using System.Collections.Generic;
 using PostPocModel;
+using PostPocModel.CardSystem;
 using System.Linq;
 
 namespace PostPocConsoleInterface
@@ -16,13 +17,14 @@ namespace PostPocConsoleInterface
 
         private static CardControler cardControler;
 
-        private static GameDataLoader dataLoader = new HardCodeGameDataLoader();
         private static GameWorld world;
         private static GameContext currContext;
+        private static ContextControler contextControler;
 
         static void Main(string[] args)
         {
-            cardControler = new CardControler();
+            contextControler = new ContextControler();
+            cardControler = new CardControler("", contextControler);
 
             SetupGameData();
             SubscribeToEvents();
@@ -63,8 +65,6 @@ namespace PostPocConsoleInterface
         static void SetupGameData() {
             world = new GameWorld(new DefaultStettelemtnBuilder());
             currContext = new GameContext(world);
-
-            cardControler.AddCards(dataLoader.GetGameCards());
         }
 
         static void LoadInCommands() {
@@ -109,26 +109,65 @@ namespace PostPocConsoleInterface
 
     }
 
+    public class ContextControler {
+
+        protected GameWorld world;
+
+        public GameContext CurrContext { get; private set; }
+
+        public ContextControler(GameWorld world) {
+            this.world = world;
+            CurrContext = new GameContext(world);
+        }
+
+        public void resetContext() {
+            CurrContext = new GameContext(world);
+
+        }
+
+    }
+
     public class CardControler {
+        private ContextControler ContextC;
 
         private CardDeck<GameCard> deck = new CardDeck<GameCard>();
         private List<GameCard> _hand = new List<GameCard>();
         public IEnumerable<GameCard> Hand { get { return _hand; } }
 
+        public CardDataBase<GameCard> cardDB;
+        private ICardBuilder<GameCard> cardBuilder = new GameCard.Builder();
 
-        public CardControler() {
-
+        public CardControler(string cardSourcePath, ContextControler contextC) {
+            this.ContextC = contextC;
+            cardDB = new CardDataBase<GameCard>(cardSourcePath, cardBuilder);
+            foreach (GameCard card in cardDB.GetStartingDeck())
+                deck.AddCard(card);
         }
 
-        public void AddCards(IEnumerable<IGameCard> cardEnumerable) {
-            foreach (IGameCard card in cardEnumerable)
-                deck.AddCard((GameCard)card);
+        protected string DrawCard() {
+            GameCard card = deck.DrawCard();
+            if (card == null)
+                return "deck empty";
+
+            _hand.Add(card);
+            return card.Name;
         }
 
-        public Dictionary<string, Func<String[], string>> getCommands() {
-            Dictionary<string, Func<String[],string>> commands = new Dictionary<string, Func<String[], string>>();
+        protected string PlayCard(int cardIndex, int activationIndex) {
+            var activation = _hand[cardIndex].Activations(activationIndex).GetActivatable(ContextC.CurrContext);
+            if (activation == null)
+                return "could not play card";
+            
+            activation.Activate(ContextC.CurrContext);
+            return "played";    
+        }
+
+        public Dictionary<string, Func<string[], string>> getCommands() {
+            Dictionary<string, Func<string[],string>> commands = new Dictionary<string, Func<string[], string>>();
            
-            commands.TryAdd("draw", delegate (string[] x) { _hand.Add(deck.DrawCard()); return _hand[0].ToString(); });
+            commands.TryAdd("draw",  x => DrawCard() );
+            commands.TryAdd("play", x => PlayCard(int.Parse(x[0]), int.Parse(x[1])));
+
 
 
             return commands;

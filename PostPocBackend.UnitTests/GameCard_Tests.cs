@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostPocModel.UnitTests
+namespace PostPocModel.CardSystem.UnitTests
 {
     class GameCard_Tests
     {

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PostPocModel.UnitTests
+namespace PostPocModel.CardSystem.UnitTests
 {
     public class CardDeck_Tests
     {
