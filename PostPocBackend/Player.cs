@@ -14,7 +14,7 @@ namespace PostPocModel
         protected IPlayableGame Game { get; set; }
         protected int HandSizeLimit { get; private set; }
 
-        public Player(IPlayableGame game, IPlayableDeck deck, int handSizeLimit = 7) {
+        public Player(IPlayableGame game, IPlayableDeck deck, int handSizeLimit) {
             this.Deck = deck;
             this._hand = new List<IPlayableCard>();
             this.Game = game;
@@ -76,7 +76,7 @@ namespace PostPocModel
         public void EndTurn();
     }
 
-    public interface IPlayableDeck {
+    public interface IPlayableDeck{
         public IPlayableCard Draw();
         public void Discard(IPlayableCard card);
     }

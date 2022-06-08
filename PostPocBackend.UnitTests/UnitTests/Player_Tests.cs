@@ -39,7 +39,7 @@ namespace PostPocModel.CardSystem.UnitTests
                                             .Returns(cards[8].Object)
                                             .Returns(cards[9].Object);
 
-            target = new Player(game.Object, deck.Object);
+            target = new Player(game.Object, deck.Object, 7);
         }
 
         [Test]
