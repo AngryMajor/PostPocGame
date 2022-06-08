@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostPocModel
+namespace PostPocModel.CardSystem
 {
-    public abstract class GameDataLoader
+    public class CardContext
     {
     }
-
-   
-    
 }
