@@ -82,8 +82,8 @@ namespace PostPocModel.CardSystem
                         else
                         {
                             myDeck.Reshuffle();
-                            myCards.Add(myDeck.TakeTopCard());
-                        }
+                        myCards.Add(myDeck.TakeTopCard());
+                    }
                     }
                 }
                 

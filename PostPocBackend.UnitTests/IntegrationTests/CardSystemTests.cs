@@ -16,6 +16,7 @@ namespace PostPocModel.UnitTests.IntegrationTests
         private List<PostPocCard> StartingCards;
 
         private bool CardShouldPlay;
+        private bool CardShouldDiscard;
 
         [SetUp]
         public void SetUp() {
