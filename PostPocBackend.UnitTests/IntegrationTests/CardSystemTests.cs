@@ -23,16 +23,16 @@ namespace PostPocModel.UnitTests.IntegrationTests
             CardShouldPlay = true;
 
             StartingCards = new List<PostPocCard>() {
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true),
-                new PostPocCard("First","First",x=>CardShouldPlay,true)
+                PostPocCard.New("First").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Second").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Third").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Fourth").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Fifth").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Sixth").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Seventh").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("eighth").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Ninth").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
+                PostPocCard.New("Tenth").WithDescription("First").WithPlayPredicate(x=>CardShouldPlay).WithDiscardOnPlay(true),
             };
             currDeck = new Deck<PostPocCard>(StartingCards,1);
             currHand = currDeck.CreateHand(StartingHandSize);
